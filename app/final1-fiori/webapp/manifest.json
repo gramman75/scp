@@ -1,0 +1,124 @@
+{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "ns.final1-fiori",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "ach": "ach",
+    "sourceTemplate": {
+      "id": "html5moduletemplates.basicSAPUI5ApplicationProjectModule",
+      "version": "1.40.12"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "https://15c63085trial-dev-final1-cds-srv.cfapps.us10.hana.ondemand.com/book/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0",
+          "localUri": "localService/metadata.xml"
+        }
+      }
+    }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "final1"
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "rootView": {
+      "viewName": "ns.final1-fiori.view.fianl1List",
+      "type": "XML",
+      "async": true,
+      "id": "fianl1List"
+    },
+    "dependencies": {
+      "minUI5Version": "1.60.1",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "ns.final1-fiori.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "groupId": "$direct",
+          "synchronizationMode": "None",
+          "autoExpandSelect": true
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "ns.final1-fiori.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "Routefianl1List",
+          "pattern": "Routefianl1List",
+          "target": [
+            "Targetfianl1List"
+          ]
+        }
+      ],
+      "targets": {
+        "Targetfianl1List": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "fianl1List",
+          "viewName": "fianl1List"
+        }
+      }
+    }
+  }
+}

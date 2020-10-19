@@ -1,0 +1,212 @@
+{
+  "definitions": {
+    "BookService": {
+      "@source": "srv/sample-service.cds",
+      "kind": "service"
+    },
+    "BookService.AuthorSrv": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "my.Authors"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "type": "cds.String"
+        },
+        "book": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "BookService.BookSrv",
+          "on": [
+            {
+              "ref": [
+                "book",
+                "author"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "BookService.BookSrv": {
+      "kind": "entity",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "my.Books"
+            ]
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "title": {
+          "type": "cds.String"
+        },
+        "stock": {
+          "type": "cds.Integer"
+        },
+        "author": {
+          "type": "cds.Association",
+          "target": "BookService.AuthorSrv",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "author_ID"
+            }
+          ]
+        },
+        "author_ID": {
+          "type": "cds.Integer",
+          "@odata.foreignKey4": "author"
+        }
+      },
+      "$syntax": "entity"
+    },
+    "CatalogService": {
+      "@source": "srv/cat-service.cds",
+      "kind": "service"
+    },
+    "CatalogService.Books": {
+      "kind": "entity",
+      "@readonly": true,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "my.bookshop.Books"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "title": {
+          "type": "cds.String"
+        },
+        "stock": {
+          "type": "cds.Integer"
+        }
+      },
+      "$syntax": "projection",
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false
+    },
+    "my.Authors": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "type": "cds.String"
+        },
+        "book": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "my.Books",
+          "on": [
+            {
+              "ref": [
+                "book",
+                "author"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "my.Books": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "title": {
+          "type": "cds.String"
+        },
+        "stock": {
+          "type": "cds.Integer"
+        },
+        "author": {
+          "type": "cds.Association",
+          "target": "my.Authors",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "author_ID"
+            }
+          ]
+        },
+        "author_ID": {
+          "type": "cds.Integer",
+          "@odata.foreignKey4": "author"
+        }
+      }
+    },
+    "my.bookshop.Books": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "title": {
+          "type": "cds.String"
+        },
+        "stock": {
+          "type": "cds.Integer"
+        }
+      }
+    }
+  },
+  "$version": "1.0",
+  "meta": {
+    "creator": "CDS Compiler v1.35.0"
+  },
+  "namespace": "my.bookshop"
+}
